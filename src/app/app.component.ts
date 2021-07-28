@@ -1,4 +1,8 @@
+import { select } from '@angular-redux/store';
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Author } from './model';
+import { AuthorActions } from './store/actions/authors.actions';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'print-authors';
+  @select('authors') authors$: Observable<Author[]>;
+
+  constructor(private authorsActions: AuthorActions) {}
+
+  ngOnInit() {
+    this.authorsActions.fetchAuthors();
+  }
 }
